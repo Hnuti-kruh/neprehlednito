@@ -1,0 +1,7 @@
+* text=auto eol=lf
+
+# Treat common text files explicitly
+*.{js,ts,tsx,jsx,css,scss,html,astro,md,json,yml,yaml} text eol=lf
+
+# Public assets are not code for stats
+/public/* linguist-vendored

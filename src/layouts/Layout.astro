@@ -1,0 +1,220 @@
+---
+// Global layout – imports shared styles
+import "../styles/global.css";
+---
+
+<!doctype html>
+<html lang="cs">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.png" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&display=swap"
+			rel="stylesheet"
+		/>
+		<meta name="generator" content={Astro.generator} />
+		<meta
+			name="description"
+			content="Kampaň Nepřehlédni to – péče je všude a všude trpí. Hnutí Kruh."
+		/>
+		<title>Nepřehlédni to | Hnutí Kruh</title>
+	</head>
+	<body class="site">
+		<div class="site__bg" aria-hidden="true"></div>
+		<div class="site__overlay" aria-hidden="true"></div>
+		<a class="skip-link" href="#hlavni-obsah">Přeskočit na obsah</a>
+		<header class="site-header">
+			<div class="container row between center-y">
+				<div class="brand">
+					<img
+						src="/img/logo_kruh.png"
+						alt="Hnutí Kruh"
+						class="brand__image"
+					/>
+				</div>
+				<nav class="main-nav" aria-label="Hlavní navigace">
+					<ul>
+						<li><a href="#problemy">Problémy</a></li>
+						<li><a href="#cisla">Čísla</a></li>
+						<li><a href="#plan">Plán</a></li>
+						<li><a href="#zapojse">Zapoj se</a></li>
+					</ul>
+				</nav>
+			</div>
+		</header>
+		<main id="hlavni-obsah" class="site-main">
+			<slot />
+		</main>
+		<footer class="site-footer">
+			<div class="container footer-grid">
+				<div>
+					<h3 class="footer-title">Nepřehlédni to</h3>
+					<p class="small">
+						Péče je všude. A všude trpí. Společně to můžeme změnit.
+					</p>
+				</div>
+				<div>
+					<h4>Rychlé odkazy</h4>
+					<ul class="plain footer-links">
+						<li><a href="#problemy">Co nefunguje</a></li>
+						<li><a href="#plan">Náš plán</a></li>
+						<li><a href="#zapojse">Zapoj se</a></li>
+					</ul>
+				</div>
+				<div>
+					<h4>Kontakt</h4>
+					<ul class="plain footer-links">
+						<li>
+							<a href="mailto:info@hnutikruh.cz"
+								>info@hnutikruh.cz</a
+							>
+						</li>
+						<li>
+							<a
+								href="https://www.hnutikruh.cz/kontakt"
+								target="_blank"
+								rel="noopener">hnutikruh.cz</a
+							>
+						</li>
+					</ul>
+				</div>
+				<div>
+					<h4>Newsletter</h4>
+					<a
+						class="btn btn-primary"
+						href="https://www.hnutikruh.cz/forms/newsletter-form"
+						target="_blank"
+						rel="noopener"
+					>
+						Přihlásit se k odběru
+					</a>
+				</div>
+			</div>
+			<div class="container footer-bottom">
+				<p class="xsmall muted">
+					Copy, right? @{new Date().getFullYear()} Hnutí Kruh
+					<span class="divider">|</span>
+					<a href="https://www.hnutikruh.cz/organisation/legal"
+						>Zásady ochrany osobních údajů</a
+					>
+					<span class="divider">|</span>
+					Zadavatel & Zpracovatel: Hnutí Kruh
+				</p>
+			</div>
+		</footer>
+
+		<!-- Consent banner -->
+		<div
+			id="consent-banner"
+			class="consent-banner"
+			role="region"
+			aria-label="Nastavení souhlasu s analytikou"
+			hidden
+		>
+			<div class="container consent-banner__inner">
+				<p class="consent-banner__text">
+					Pomozte nám zviditelňovat péči. Povolit anonymní měření
+					návštěvnosti (Matomo)?
+					<a
+						href="https://www.hnutikruh.cz/organisation/legal"
+						target="_blank"
+						rel="noopener">Zásady ochrany osobních údajů</a
+					>.
+				</p>
+				<div class="consent-banner__actions">
+					<button
+						id="consent-accept"
+						class="btn btn--small btn--primary"
+						type="button">Povolit analytiku</button
+					>
+					<button
+						id="consent-decline"
+						class="btn btn--small btn--ghost"
+						type="button">Pouze nezbytné</button
+					>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			(function () {
+				const KEY = "hk_matomo_consent";
+				const banner = document.getElementById("consent-banner");
+				const btnAccept = document.getElementById("consent-accept");
+				const btnDecline = document.getElementById("consent-decline");
+
+				function loadMatomo() {
+					if (window._matomoLoaded) return;
+					window._matomoLoaded = true;
+					var _paq = (window._paq = window._paq || []);
+					/* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+					_paq.push(["trackPageView"]);
+					_paq.push(["enableLinkTracking"]);
+					(function () {
+						var u = "//matomo.czechnomad.cz/";
+						_paq.push(["setTrackerUrl", u + "matomo.php"]);
+						_paq.push(["setSiteId", "6"]);
+						var d = document,
+							g = d.createElement("script"),
+							s = d.getElementsByTagName("script")[0];
+						g.async = true;
+						g.src = u + "matomo.js";
+						s.parentNode.insertBefore(g, s);
+					})();
+				}
+
+				function hideBanner() {
+					if (banner) banner.hidden = true;
+				}
+				function showBanner() {
+					if (banner) banner.hidden = false;
+				}
+
+				// Init
+				try {
+					const stored = localStorage.getItem(KEY);
+					if (stored === "granted") {
+						loadMatomo();
+					} else if (stored === "denied") {
+						// do nothing, keep Matomo disabled
+					} else {
+						showBanner();
+					}
+				} catch (_) {
+					// localStorage not available, show banner as fallback
+					showBanner();
+				}
+
+				// Actions
+				if (btnAccept) {
+					btnAccept.addEventListener("click", () => {
+						try {
+							localStorage.setItem(KEY, "granted");
+						} catch (_) {}
+						loadMatomo();
+						hideBanner();
+					});
+				}
+				if (btnDecline) {
+					btnDecline.addEventListener("click", () => {
+						try {
+							localStorage.setItem(KEY, "denied");
+						} catch (_) {}
+						hideBanner();
+					});
+				}
+			})();
+		</script>
+
+		<style>
+			.brand__image {
+				width: 5rem;
+				display: block; /* remove inline-gap so it hugs top-left */
+				margin: 0.5rem;
+			}
+		</style>
+	</body>
+</html>
