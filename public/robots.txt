@@ -1,0 +1,29 @@
+###############################################
+# robots.txt for https://neprehlednito.cz/
+# Purpose: allow full indexing of public campaign content
+# Updated: 2025-09-22
+# Notes:
+#  - Keep "Allow: /" so nothing is inadvertently blocked.
+#  - Add Disallow lines ONLY for pages you explicitly do NOT want indexed.
+#  - Ensure server redirects enforce one canonical host (e.g. no both www & non-www).
+###############################################
+
+User-agent: *
+Allow: /
+
+# Future examples (uncomment when such paths exist):
+# Disallow: /admin/
+# Disallow: /draft/
+# Disallow: /api/
+
+# Primary sitemap (add this file or generate via @astrojs/sitemap):
+Sitemap: https://neprehlednito.cz/sitemap.xml
+
+# If you switch to an index sitemap (multiple sitemaps), keep a line like:
+# Sitemap: https://neprehlednito.cz/sitemap-index.xml
+
+# Explicit (optional) allowance for image crawling
+User-agent: Googlebot-Image
+Allow: /
+
+# End of file
