@@ -23,11 +23,18 @@ import "../styles/global.css";
 		<meta property="og:description" content="Péče je všude a všude trpí. Kampaň Hnutí Kruh: dostupnost, důstojnost a prevence v péči." />
 		<meta property="og:type" content="website" />
 		<meta property="og:url" content="https://neprehlednito.cz/" />
-		<meta property="og:image" content="https://neprehlednito.cz/img/og-neprehlednito.png" />
+		<meta property="og:image" content="https://neprehlednito.cz/cover.png" />
+		<meta property="og:image:secure_url" content="https://neprehlednito.cz/cover.png" />
+		<meta property="og:image:type" content="image/png" />
+		<meta property="og:image:alt" content="Nepřehlédni to – Hnutí Kruh" />
+		<!-- Optional width/height help some scrapers; safe to omit if unknown -->
+		<!-- <meta property="og:image:width" content="1364" /> -->
+		<!-- <meta property="og:image:height" content="768" /> -->
 		<meta name="twitter:card" content="summary_large_image" />
 		<meta name="twitter:title" content="Nepřehlédni to – Hnutí Kruh" />
 		<meta name="twitter:description" content="Péče je infrastruktura společnosti. Přidej se." />
-		<meta name="twitter:image" content="https://neprehlednito.cz/img/og-neprehlednito.png" />
+		<meta name="twitter:image" content="https://neprehlednito.cz/cover.png" />
+		<meta name="twitter:image:alt" content="Nepřehlédni to – Hnutí Kruh" />
 		<!-- Robots, Terminators, etc .. -->
 		<meta name="robots" content="index, follow" />
 		<!-- Volitelně po ověření -->
@@ -169,16 +176,21 @@ import "../styles/global.css";
 		</div>
 
 		<script>
+			// @ts-nocheck
 			(function () {
+				// JSDoc typing to satisfy TS checkers when using custom properties on window
+				// Cast window to any to use custom Matomo properties without TS complaints
+				const w = /** @type {any} */ (window);
+
 				const KEY = "hk_matomo_consent";
 				const banner = document.getElementById("consent-banner");
 				const btnAccept = document.getElementById("consent-accept");
 				const btnDecline = document.getElementById("consent-decline");
 
 				function loadMatomo() {
-					if (window._matomoLoaded) return;
-					window._matomoLoaded = true;
-					var _paq = (window._paq = window._paq || []);
+					if (w._matomoLoaded) return;
+					w._matomoLoaded = true;
+					var _paq = (w._paq = w._paq || []);
 					/* tracker methods like "setCustomDimension" should be called before "trackPageView" */
 					_paq.push(["trackPageView"]);
 					_paq.push(["enableLinkTracking"]);
@@ -191,7 +203,11 @@ import "../styles/global.css";
 							s = d.getElementsByTagName("script")[0];
 						g.async = true;
 						g.src = u + "matomo.js";
-						s.parentNode.insertBefore(g, s);
+						if (s && s.parentNode) {
+							s.parentNode.insertBefore(g, s);
+						} else {
+							(d.head || d.body || d.documentElement).appendChild(g);
+						}
 					})();
 				}
 
