@@ -1,0 +1,21 @@
+*
+!package.json
+!package-lock.json
+!astro.config.mjs
+!tsconfig.json
+!src/
+!src/**
+!public/
+!public/**
+!deployment/
+!deployment/nginx.conf
+!Dockerfile
+
+# Never send credentials to the builder, even inside allowed directories.
+**/.env
+**/.env.*
+**/.npmrc
+**/*.pem
+**/*.key
+**/*.p12
+**/*.pfx

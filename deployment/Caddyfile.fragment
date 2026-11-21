@@ -1,0 +1,9 @@
+# Append to /opt/stacks/caddy/Caddyfile AFTER deploying the web container.
+# Do not replace the existing Caddyfile with this fragment.
+neprehlednito.cz {
+    reverse_proxy neprehlednito-web:8080
+}
+
+www.neprehlednito.cz {
+    redir https://neprehlednito.cz{uri} permanent
+}
